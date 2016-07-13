@@ -1,0 +1,24 @@
+[
+    {
+        "id": "edit",
+        "children":
+        [
+            {
+                "caption": "Convert Numbers",
+                "mnemonic": "S",
+                "id": "convert_num",
+                "children":
+                [
+                    {"command": "exp_to_dec"},
+                    {"command": "dec_to_exp"},
+                    {"command": "dec_to_hex"},
+                    {"command": "dec_to_bin"},
+                    {"command": "bin_to_dec"},
+                    {"command": "bin_to_hex"},
+                    {"command": "hex_to_dec"},
+                    {"command": "hex_to_bin"}
+                ]
+            }
+        ]
+    }
+]

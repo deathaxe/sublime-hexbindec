@@ -1,0 +1,34 @@
+[
+    {
+        "caption": "Convert Number: Dec to Hex",
+        "command": "dec_to_hex"
+    },
+    {
+        "caption": "Convert Number: Dec to Bin",
+        "command": "dec_to_bin"
+    },
+    {
+        "caption": "Convert Number: Bin to Dec",
+        "command": "bin_to_dec"
+    },
+    {
+        "caption": "Convert Number: Bin to Hex",
+        "command": "bin_to_hex"
+    },
+    {
+        "caption": "Convert Number: Hex to Dec",
+        "command": "hex_to_dec"
+    },
+    {
+        "caption": "Convert Number: Hex to Bin",
+        "command": "hex_to_bin"
+    },
+    {
+        "caption": "Convert Number: Exp to Dec",
+        "command": "exp_to_dec"
+    },
+    {
+        "caption": "Convert Number: Dec to Exp",
+        "command": "dec_to_exp"
+    },
+]
