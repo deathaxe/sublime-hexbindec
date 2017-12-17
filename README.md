@@ -32,7 +32,7 @@ You can setup patterns to identify binary, decimal and hexadecimal numbers for e
 
 	// Define the format of hexadecimal numbers for the Hex-Bin-System plugin
 	// Hexadecimals look like 'H1AF23'
-	"convert_src_hex": "'H(\\H+)'",
+	"convert_src_hex": "'H([0-9A-F]+)'",
 	"convert_dst_hex": "'H{0:X}'",
 
 	// Define the format of exponential numbers for the Hex-Bin-System plugin

@@ -46,6 +46,7 @@ _CONVERT_SRC_HEX_DFLT = r'\b(?:0x)?([0-9a-f]+)h?\b'
 _CONVERT_SRC_EXP_DFLT = r'\b(\d+\.\d+)e([-+]?\d+)\b'
 # ============================================================================
 
+
 class BinToDecCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
@@ -69,15 +70,14 @@ class BinToDecCommand(sublime_plugin.TextCommand):
                         sel.b += 1
 
                 match = r.match(view.substr(sel))
-                view.replace(edit, sel, \
-                    str(int(match.group(1), 2)))
+                view.replace(edit, sel, str(int(match.group(1), 2)))
 
             except:
                 num_skip += 1
 
         # show number of invalid values
         if num_skip > 0:
-            sublime.status_message( \
+            sublime.status_message(
                 "Skipped %d invalid binary value(s)!" % num_skip)
 
 
@@ -106,15 +106,15 @@ class BinToHexCommand(sublime_plugin.TextCommand):
                         sel.b += 1
 
                 match = r.match(view.substr(sel))
-                view.replace(edit, sel, \
-                    dst_format.format(int(match.group(1), 2)))
+                view.replace(edit, sel, dst_format.format(
+                             int(match.group(1), 2)))
 
             except:
                 num_skip += 1
 
         # show number of invalid values
         if num_skip > 0:
-            sublime.status_message( \
+            sublime.status_message(
                 "Skipped %d invalid binary value(s)!" % num_skip)
 
 
@@ -134,15 +134,14 @@ class DecToBinCommand(sublime_plugin.TextCommand):
                     sel = view.word(sel)
 
                 dec = view.substr(sel).strip()
-                view.replace(edit, sel, \
-                    dst_format.format(int(dec)))
+                view.replace(edit, sel, dst_format.format(int(dec)))
 
             except:
                 num_skip += 1
 
         # show number of invalid values
         if num_skip > 0:
-            sublime.status_message( \
+            sublime.status_message(
                 "Skipped %d invalid decimal value(s)!" % num_skip)
 
 
@@ -152,7 +151,8 @@ class DecToHexCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        dst_format = view.settings().get('convert_dst_hex', _CONVERT_DST_HEX_DFLT)
+        dst_format = view.settings().get('convert_dst_hex',
+                                         _CONVERT_DST_HEX_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -168,7 +168,7 @@ class DecToHexCommand(sublime_plugin.TextCommand):
 
         # show number of invalid values
         if num_skip > 0:
-            sublime.status_message( \
+            sublime.status_message(
                 "Skipped %d invalid decimal value(s)!" % num_skip)
 
 
@@ -178,8 +178,10 @@ class HexToBinCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        dst_format = view.settings().get('convert_dst_bin', _CONVERT_DST_BIN_DFLT)
-        src_pattern = view.settings().get('convert_src_hex', _CONVERT_SRC_HEX_DFLT)
+        dst_format = view.settings().get('convert_dst_bin',
+                                         _CONVERT_DST_BIN_DFLT)
+        src_pattern = view.settings().get('convert_src_hex',
+                                          _CONVERT_SRC_HEX_DFLT)
         # precompile regexp pattern
         r = re.compile('(?i)' + src_pattern)
         # convert all selected numbers
@@ -196,15 +198,15 @@ class HexToBinCommand(sublime_plugin.TextCommand):
 
                 # valid hex: 10 , 0x10 , 0x10h , 10h, h10
                 match = r.match(view.substr(sel))
-                view.replace(edit, sel, \
-                    dst_format.format(int(match.group(1), 16)))
+                view.replace(edit, sel, dst_format.format(
+                             int(match.group(1), 16)))
 
             except:
                 num_skip += 1
 
         # show number of invalid values
         if num_skip > 0:
-            sublime.status_message( \
+            sublime.status_message(
                 "Skipped %d invalid hexadecimal value(s)!" % num_skip)
 
 
@@ -214,7 +216,8 @@ class HexToDecCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        src_pattern = view.settings().get('convert_src_hex', _CONVERT_SRC_HEX_DFLT)
+        src_pattern = view.settings().get('convert_src_hex',
+                                          _CONVERT_SRC_HEX_DFLT)
         # precompile regexp pattern
         r = re.compile('(?i)' + src_pattern)
         # convert all selected numbers
@@ -232,15 +235,14 @@ class HexToDecCommand(sublime_plugin.TextCommand):
                 # validate selection
                 match = r.match(view.substr(sel))
                 # replace selection with the result
-                view.replace(edit, sel, \
-                    str(int(match.group(1), 16)))
+                view.replace(edit, sel, str(int(match.group(1), 16)))
 
             except:
                 num_skip += 1
 
         # show number of invalid values
         if num_skip > 0:
-            sublime.status_message( \
+            sublime.status_message(
                 "Skipped %d invalid hexadecimal value(s)!" % num_skip)
 
 
@@ -259,7 +261,8 @@ class ExpToDecCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        src_pattern = view.settings().get('convert_src_exp', _CONVERT_SRC_EXP_DFLT)
+        src_pattern = view.settings().get('convert_src_exp',
+                                          _CONVERT_SRC_EXP_DFLT)
         # precompile regexp pattern
         r = re.compile('(?i)' + src_pattern)
         # convert all selected numbers
@@ -278,15 +281,14 @@ class ExpToDecCommand(sublime_plugin.TextCommand):
                 # convert the match and round by 18 digits after comma
                 result = round(float(match.group(1)) * 10 ** float(match.group(2)), 18)
                 # replace selection with the formated result
-                view.replace(edit, sel, \
-                    str(result).rstrip('0').rstrip('.'))
+                view.replace(edit, sel, str(result).rstrip('0').rstrip('.'))
 
             except:
                 num_skip += 1
 
         # show number of invalid values
         if num_skip > 0:
-            sublime.status_message( \
+            sublime.status_message(
                 "Skipped %d invalid exponential value(s)!" % num_skip)
 
 
@@ -305,7 +307,8 @@ class DecToExpCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        dst_pattern = view.settings().get('convert_dst_exp', _CONVERT_DST_EXP_DFLT)
+        dst_pattern = view.settings().get('convert_dst_exp',
+                                          _CONVERT_DST_EXP_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -337,5 +340,5 @@ class DecToExpCommand(sublime_plugin.TextCommand):
 
         # show number of invalid values
         if num_skip > 0:
-            sublime.status_message( \
+            sublime.status_message(
                 "Skipped %d invalid decimal value(s)!" % num_skip)

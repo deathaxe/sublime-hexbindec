@@ -5,7 +5,6 @@
         [
             {
                 "caption": "Convert Numbers",
-                "mnemonic": "S",
                 "id": "convert_num",
                 "children":
                 [
