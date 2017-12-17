@@ -1,6 +1,7 @@
+import re
+
 import sublime
 import sublime_plugin
-import re
 
 # ============================================================================
 # CONFIGURATION DESCRIPTION
@@ -47,16 +48,19 @@ _CONVERT_SRC_EXP_DFLT = r'\b(\d+\.\d+)e([-+]?\d+)\b'
 # ============================================================================
 
 
+def load_pattern(view, name, default):
+    try:
+        return re.compile(view.settings().get(name, default))
+    except:
+        return re.compile(default)
+
+
 class BinToDecCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         num_skip = 0
         view = self.view
-        # read settings
-        src_pattern = view.settings().get('convert_src_bin',
-                                          _CONVERT_SRC_BIN_DFLT)
-        # precompile regexp pattern
-        r = re.compile('(?i)' + src_pattern)
+        r = load_pattern(view, 'convert_src_bin', _CONVERT_SRC_BIN_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -65,7 +69,7 @@ class BinToDecCommand(sublime_plugin.TextCommand):
                     sel = view.word(sel)
                     # if source is single quoted, expand selection
                     # by one more character before and after the word.
-                    if src_pattern[0] == '\'':
+                    if r.pattern[0] == '\'':
                         sel.a -= 1
                         sel.b += 1
 
@@ -87,12 +91,8 @@ class BinToHexCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        dst_format = view.settings().get('convert_dst_hex',
-                                         _CONVERT_DST_HEX_DFLT)
-        src_pattern = view.settings().get('convert_src_bin',
-                                          _CONVERT_SRC_BIN_DFLT)
-        # precompile regexp pattern
-        r = re.compile('(?i)' + src_pattern)
+        dst_format = view.settings().get('convert_dst_hex', _CONVERT_DST_HEX_DFLT)
+        r = load_pattern(view, 'convert_src_bin', _CONVERT_SRC_BIN_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -101,13 +101,12 @@ class BinToHexCommand(sublime_plugin.TextCommand):
                     sel = view.word(sel)
                     # if source is single quoted, expand selection
                     # by one more character before and after the word.
-                    if src_pattern[0] == '\'':
+                    if r.pattern[0] == '\'':
                         sel.a -= 1
                         sel.b += 1
 
                 match = r.match(view.substr(sel))
-                view.replace(edit, sel, dst_format.format(
-                             int(match.group(1), 2)))
+                view.replace(edit, sel, dst_format.format(int(match.group(1), 2)))
 
             except:
                 num_skip += 1
@@ -124,8 +123,7 @@ class DecToBinCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        dst_format = view.settings().get('convert_dst_bin',
-                                         _CONVERT_DST_BIN_DFLT)
+        dst_format = view.settings().get('convert_dst_bin', _CONVERT_DST_BIN_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -151,8 +149,7 @@ class DecToHexCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        dst_format = view.settings().get('convert_dst_hex',
-                                         _CONVERT_DST_HEX_DFLT)
+        dst_format = view.settings().get('convert_dst_hex', _CONVERT_DST_HEX_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -178,12 +175,8 @@ class HexToBinCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        dst_format = view.settings().get('convert_dst_bin',
-                                         _CONVERT_DST_BIN_DFLT)
-        src_pattern = view.settings().get('convert_src_hex',
-                                          _CONVERT_SRC_HEX_DFLT)
-        # precompile regexp pattern
-        r = re.compile('(?i)' + src_pattern)
+        dst_format = view.settings().get('convert_dst_bin', _CONVERT_DST_BIN_DFLT)
+        r = load_pattern(view, 'convert_src_hex', _CONVERT_SRC_HEX_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -192,14 +185,13 @@ class HexToBinCommand(sublime_plugin.TextCommand):
                     sel = view.word(sel)
                     # if source is single quoted, expand selection
                     # by one more character before and after the word.
-                    if src_pattern[0] == '\'':
+                    if r.pattern[0] == '\'':
                         sel.a -= 1
                         sel.b += 1
 
                 # valid hex: 10 , 0x10 , 0x10h , 10h, h10
                 match = r.match(view.substr(sel))
-                view.replace(edit, sel, dst_format.format(
-                             int(match.group(1), 16)))
+                view.replace(edit, sel, dst_format.format(int(match.group(1), 16)))
 
             except:
                 num_skip += 1
@@ -216,10 +208,7 @@ class HexToDecCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        src_pattern = view.settings().get('convert_src_hex',
-                                          _CONVERT_SRC_HEX_DFLT)
-        # precompile regexp pattern
-        r = re.compile('(?i)' + src_pattern)
+        r = load_pattern(view, 'convert_src_hex', _CONVERT_SRC_HEX_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -228,7 +217,7 @@ class HexToDecCommand(sublime_plugin.TextCommand):
                     sel = view.word(sel)
                     # if source is single quoted, expand selection
                     # by one more character before and after the word.
-                    if src_pattern[0] == '\'':
+                    if r.pattern[0] == '\'':
                         sel.a -= 1
                         sel.b += 1
 
@@ -261,10 +250,7 @@ class ExpToDecCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        src_pattern = view.settings().get('convert_src_exp',
-                                          _CONVERT_SRC_EXP_DFLT)
-        # precompile regexp pattern
-        r = re.compile('(?i)' + src_pattern)
+        r = load_pattern(view, 'convert_src_exp', _CONVERT_SRC_EXP_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
@@ -307,8 +293,7 @@ class DecToExpCommand(sublime_plugin.TextCommand):
         num_skip = 0
         view = self.view
         # read settings
-        dst_pattern = view.settings().get('convert_dst_exp',
-                                          _CONVERT_DST_EXP_DFLT)
+        dst_pattern = view.settings().get('convert_dst_exp', _CONVERT_DST_EXP_DFLT)
         # convert all selected numbers
         for sel in view.sel():
             try:
