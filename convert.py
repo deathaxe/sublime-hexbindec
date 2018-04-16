@@ -42,7 +42,7 @@ _CONVERT_DST_EXP_DFLT = r'e'
 # Default binary search pattern
 _CONVERT_SRC_BIN_DFLT = r'\b(?:0b)?([01]+)\b'
 # Default hexadecimal search pattern
-_CONVERT_SRC_HEX_DFLT = r'\b(?:0x)?([0-9a-f]+)h?\b'
+_CONVERT_SRC_HEX_DFLT = r'\b(?:0x)?([0-9a-fA-F]+)h?\b'
 # Default exponential search pattern
 _CONVERT_SRC_EXP_DFLT = r'\b(\d+\.\d+)e([-+]?\d+)\b'
 # ============================================================================
