@@ -1,0 +1,10 @@
+[
+	{"keys": ["super+k", "b","d"], "command": "bin_to_dec"},
+	{"keys": ["super+k", "b","h"], "command": "bin_to_hex"},
+	{"keys": ["super+k", "d","b"], "command": "dec_to_bin"},
+	{"keys": ["super+k", "d","e"], "command": "dec_to_exp"},
+	{"keys": ["super+k", "d","h"], "command": "dec_to_hex"},
+	{"keys": ["super+k", "e","d"], "command": "exp_to_dec"},
+	{"keys": ["super+k", "h","b"], "command": "hex_to_bin"},
+	{"keys": ["super+k", "h","d"], "command": "hex_to_dec"}
+]

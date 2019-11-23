@@ -1,0 +1,10 @@
+[
+	{"keys": ["ctrl+k", "b","d"], "command": "bin_to_dec"},
+	{"keys": ["ctrl+k", "b","h"], "command": "bin_to_hex"},
+	{"keys": ["ctrl+k", "d","b"], "command": "dec_to_bin"},
+	{"keys": ["ctrl+k", "d","e"], "command": "dec_to_exp"},
+	{"keys": ["ctrl+k", "d","h"], "command": "dec_to_hex"},
+	{"keys": ["ctrl+k", "e","d"], "command": "exp_to_dec"},
+	{"keys": ["ctrl+k", "h","b"], "command": "hex_to_bin"},
+	{"keys": ["ctrl+k", "h","d"], "command": "hex_to_dec"}
+]
